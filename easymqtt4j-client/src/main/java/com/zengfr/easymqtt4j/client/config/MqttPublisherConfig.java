@@ -35,7 +35,7 @@ public class MqttPublisherConfig {
     private int completionTimeout;
     @Value("${spring.mqtt.publisher.threads:2}")
     private int threads;
-    @Value("${spring.mqtt.publisher.isuserndclientId:false}")
+    @Value("${spring.mqtt.publisher.isuserndclientId:true}")
     private boolean isUseRndClientId;
     @Value("${spring.mqtt.publisher.ispayloadasbytes:false}")
     private boolean isPayloadAsBytes;

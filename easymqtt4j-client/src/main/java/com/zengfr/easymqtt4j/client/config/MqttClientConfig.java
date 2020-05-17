@@ -32,12 +32,15 @@ public class MqttClientConfig {
     @Value("${spring.mqtt.host.uris}")
     private String[] hostUris;
 
-    @Value("${spring.mqtt.conn.cleansession:false}")
+    @Value("${spring.mqtt.conn.cleansession:true}")
     private boolean cleanSession;
 
-    @Value("${spring.mqtt.conn.keepaliveinterval:5}")
+    @Value("${spring.mqtt.conn.keepaliveinterval:60}")
     private int keepAliveInterval;
-
+    @Value("${spring.mqtt.conn.maxreconnectdelay:1000}")
+    private int maxReconnectDelay;
+    @Value("${spring.mqtt.conn.timeout:0}")
+    private int connectionTimeout;
     @Value("${spring.mqtt.conn.maxInflight:99}")
     private int maxInflight;
 
@@ -57,6 +60,8 @@ public class MqttClientConfig {
     private boolean isUseSsl;
     @Autowired
     MqttEventGateway eventGateway;
+
+
     @Bean
     public MqttEventListener eventListener() {
         return new MqttEventListener(eventGateway);
@@ -74,6 +79,8 @@ public class MqttClientConfig {
         mqttConnectOptions.setPassword(password.toCharArray());
         mqttConnectOptions.setServerURIs(hostUris);
         mqttConnectOptions.setKeepAliveInterval(keepAliveInterval);
+        mqttConnectOptions.setConnectionTimeout(connectionTimeout);
+        mqttConnectOptions.setMaxReconnectDelay(maxReconnectDelay);
         mqttConnectOptions.setAutomaticReconnect(true);
         mqttConnectOptions.setMaxInflight(maxInflight);
         mqttConnectOptions.setCleanSession(cleanSession);

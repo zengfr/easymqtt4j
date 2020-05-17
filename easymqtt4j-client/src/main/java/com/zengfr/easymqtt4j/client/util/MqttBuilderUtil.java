@@ -9,6 +9,9 @@ import org.eclipse.paho.client.mqttv3.MqttCallback;
 import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
 import org.eclipse.paho.client.mqttv3.persist.MemoryPersistence;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.integration.channel.AbstractExecutorChannel;
+import org.springframework.integration.channel.AbstractMessageChannel;
+import org.springframework.integration.channel.DirectChannel;
 import org.springframework.integration.channel.ExecutorChannel;
 import org.springframework.integration.core.MessageProducer;
 import org.springframework.integration.mqtt.core.DefaultMqttPahoClientFactory;
@@ -30,20 +33,26 @@ import java.util.concurrent.Executors;
  * https://github.com/zengfr/easymqtt4j
  */
 public class MqttBuilderUtil {
-    public static MqttMessageConverter buildMessageConverter(boolean isPayloadAsBytes){
-        DefaultPahoMessageConverter messageConverter=new DefaultPahoMessageConverter();
+    public static MqttMessageConverter buildMessageConverter(boolean isPayloadAsBytes) {
+        DefaultPahoMessageConverter messageConverter = new DefaultPahoMessageConverter();
         messageConverter.setPayloadAsBytes(isPayloadAsBytes);
-        return  messageConverter;
+        return messageConverter;
     }
+
     public static MqttCallback buildMqttCallback(String clientId, MqttEventGateway eventGateway) {
 
         MqttCallbackListener listener = new MqttCallbackListener(clientId, eventGateway);
         return listener;
     }
-    public static MessageChannel buildMessageChannel(int threads, ChannelInterceptor channelInterceptor) {
 
-        Executor exector = Executors.newFixedThreadPool(threads);
-        ExecutorChannel c = new ExecutorChannel(exector);
+    public static MessageChannel buildMessageChannel(int threads, ChannelInterceptor channelInterceptor) {
+        AbstractMessageChannel c;
+        if (threads <= 0) {
+            c = new DirectChannel();
+        } else {
+            Executor exector = Executors.newFixedThreadPool(threads);
+            c = new ExecutorChannel(exector);
+        }
         if (channelInterceptor != null) {
             c.addInterceptor(channelInterceptor);
         }
@@ -65,9 +74,11 @@ public class MqttBuilderUtil {
             MqttPahoClientFactory clientFactory, String clientId, int completionTimeout,
             MessageChannel mqttInboundChannel, MqttMessageConverter messageConverter, String[] topics, ApplicationEventPublisher eventPublisher, MqttCallback callback) {
         MqttPahoMessageDrivenChannelAdapter adapter = new
-                MqttPahoMessageDrivenChannelAdapterAdapter( callback,clientId,
+                MqttPahoMessageDrivenChannelAdapterAdapter(callback, clientId,
                 clientFactory, topics);
         adapter.setCompletionTimeout(completionTimeout);
+        adapter.setDisconnectCompletionTimeout(completionTimeout);
+        adapter.setRecoveryInterval(800);
         adapter.setConverter(messageConverter);
         adapter.setQos(2);
         adapter.setAutoStartup(true);
@@ -80,13 +91,14 @@ public class MqttBuilderUtil {
      * 发送器 消息发送
      */
     public static MessageHandler buildMessageHandler(MqttPahoClientFactory clientFactory, String clientId,
-                                                     int completionTimeout,MqttMessageConverter messageConverter, String defaultTopic, ApplicationEventPublisher eventPublisher,MqttCallback callback) {
+                                                     int completionTimeout, MqttMessageConverter messageConverter, String defaultTopic, ApplicationEventPublisher eventPublisher, MqttCallback callback) {
         MqttPahoMessageHandler messageHandler = new MqttPahoMessageHandlerAdapter(callback, clientId, clientFactory);
         messageHandler.setAsync(true);
         messageHandler.setDefaultTopic(defaultTopic);
         messageHandler.setCompletionTimeout(completionTimeout);
         messageHandler.setAsyncEvents(true);
         messageHandler.setDefaultQos(0);
+        //messageHandler.setShouldTrack();
         messageHandler.setConverter(messageConverter);
         messageHandler.setApplicationEventPublisher(eventPublisher);
         return messageHandler;

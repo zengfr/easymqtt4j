@@ -34,7 +34,7 @@ public class MqttSubscriberConfig {
     private int completionTimeout ;
     @Value("${spring.mqtt.subscriber.threads:2}")
     private int threads;
-    @Value("${spring.mqtt.subscriber.isuserndclientId:false}")
+    @Value("${spring.mqtt.subscriber.isuserndclientId:true}")
     private boolean isUseRndClientId;
     @Value("${spring.mqtt.subscriber.ispayloadasbytes:false}")
     private boolean isPayloadAsBytes;

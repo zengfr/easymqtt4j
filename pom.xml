@@ -15,6 +15,8 @@
         <module>easymqtt4j-client</module>
         <module>easymqtt4j-server</module>
         <module>easymqtt4j-test</module>
+        <module>easymqtt4j-rocketmq-plugins</module>
+        <module>easymqtt4j-kafka-plugins</module>
     </modules>
     <build>
 
