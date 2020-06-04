@@ -8,8 +8,11 @@
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
-    <artifactId>easymqtt4j-server</artifactId>
-
-
+    <artifactId>easymqtt4j-jaas-plugins</artifactId>
+    <dependencies>
+    </dependencies>
+    <dependencyManagement>
+        <dependencies>
+        </dependencies>
+    </dependencyManagement>
 </project>

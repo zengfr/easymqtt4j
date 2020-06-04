@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>easymqtt4j</artifactId>
-        <groupId>com.zengfr.easymqtt4j</groupId>
+        <groupId>com.github.zengfr.easymqtt4j</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -18,6 +18,15 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>artemis-server</artifactId>
         </dependency>
+        <!--dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>5.4.4.Final</version>
+        </dependency-->
+        <dependency>
+            <groupId>com.github.zengfr.easymqtt4j</groupId>
+            <artifactId>easymqtt4j-jaas-plugins</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
@@ -26,7 +35,13 @@
                 <artifactId>artemis-server</artifactId>
                 <version>2.12.0</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.zengfr.easymqtt4j</groupId>
+                <artifactId>easymqtt4j-jaas-plugins</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
+
     </dependencyManagement>
 
 

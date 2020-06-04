@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <artifactId>easymqtt4j</artifactId>
-        <groupId>com.zengfr.easymqtt4j</groupId>
+        <groupId>com.github.zengfr.easymqtt4j</groupId>
         <version>1.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
@@ -14,12 +14,30 @@
             <groupId>org.apache.activemq</groupId>
             <artifactId>activemq-broker</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-jaas</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.zengfr.easymqtt4j</groupId>
+            <artifactId>easymqtt4j-jaas-plugins</artifactId>
+        </dependency>
     </dependencies>
     <dependencyManagement>
         <dependencies>
             <dependency>
+                <groupId>com.github.zengfr.easymqtt4j</groupId>
+                <artifactId>easymqtt4j-jaas-plugins</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>org.apache.activemq</groupId>
                 <artifactId>activemq-broker</artifactId>
+                <version>5.15.13</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.activemq</groupId>
+                <artifactId>activemq-jaas</artifactId>
                 <version>5.15.13</version>
             </dependency>
         </dependencies>

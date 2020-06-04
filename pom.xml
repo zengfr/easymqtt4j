@@ -4,25 +4,36 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.zengfr.easymqtt4j</groupId>
+    <groupId>com.github.zengfr.easymqtt4j</groupId>
     <artifactId>easymqtt4j</artifactId>
     <packaging>pom</packaging>
     <version>1.0</version>
-
     <modules>
-        <module>easymqtt4j-artemis-plugins</module>
-        <module>easymqtt4j-activemq-plugins</module>
         <module>easymqtt4j-client</module>
         <module>easymqtt4j-server</module>
         <module>easymqtt4j-test</module>
+        <module>easymqtt4j-jaas-plugins</module>
+        <module>easymqtt4j-activemq-plugins</module>
+        <module>easymqtt4j-artemis-plugins</module>
         <module>easymqtt4j-rocketmq-plugins</module>
         <module>easymqtt4j-kafka-plugins</module>
     </modules>
     <build>
 
     </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+        </dependency>
+    </dependencies>
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>1.7.30</version>
+            </dependency>
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter</artifactId>
